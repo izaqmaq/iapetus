@@ -1,0 +1,31 @@
+{% extends "theme_bootstrap/subnav_base.html" %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block body_class %}account{% endblock %}
+
+{% block subnav %}
+<div class="panel panel-info">
+    <div class="list-group">
+        <a class="list-group-item account-settings" href="{% url 'term' %}">
+            {% trans "Academic Term" %}
+        </a>
+        <a class="list-group-item account-settings" href="{% url 'all_students' %}">
+            {% trans "Students" %}
+        </a>
+        <a class="list-group-item account-settings" href="{% url 'account_settings' %}">
+            {% trans "Fee Arrears" %}
+        </a>
+        <a class="list-group-item account-password" href="{% url 'account_password' %}">
+            {% trans "Exam Results" %}
+        </a>
+        <a class="list-group-item account-delete" href="{% url 'roles' %}">
+            {% trans "Roles" %}
+        </a>
+        <a class="list-group-item account-delete" href="{% url 'tutors' %}">
+            {% trans "Teaching" %}
+        </a>
+    </div>
+</div>
+{% endblock %}

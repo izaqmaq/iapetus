@@ -1,0 +1,47 @@
+{% extends 'site_base.html' %}
+{% block head_title %}{{ book|capfirst }}{% endblock %}
+{% block nav-books %}<li class="active">{% endblock %}
+{% block body %}
+
+
+    <h4 class="page-header">{{ book|capfirst }}<small>  by {{ book.catalog_entry.publisher }}</small></h4>
+
+
+    <!-- Table -->
+    <table class="table table-bordered table-hover table-condensed" >
+			<thead><tr class="warning">
+				<th scope="col">Index</th>
+				<th scope="col">Book</th>
+				<th scope="col">Reader</th>
+				<th scope="col">Borrow Date</th>
+				<th scope="col">Return Date</th>
+			</thead></tr>
+			{% for book in loan_history %}
+			<tbody>
+			<tr>
+				<th scope="row">{{ forloop.counter }}</th>
+				<th scope="row">{{ book.book }}</th>
+				<td>{{ book.student }}</td>
+				<td>{{ book.borrow_date }}</td>
+				<td>{{ book.back_date }}</td>
+			</tr>
+			{% endfor %}
+			{% if page_obj.has_next or loan_history.count == 1 %}
+			{% else %}
+			<tr class="panel-footer">
+				<th scope="row">Total</th>
+				<th scope="row">&nbsp;</th>
+				<td>{{ loan_history.count }}</td>
+				<td colspan="2">&nbsp</td></tr>
+				{% endif %}
+			</tbody>
+				
+	</table>
+
+
+
+
+
+
+
+{% endblock %}

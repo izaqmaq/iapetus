@@ -1,0 +1,59 @@
+{% extends "site_base.html" %}
+
+{% block head_title %}Book Loan{% endblock %}
+{% load widget_tweaks %}
+
+{% block body %}
+
+
+<div class="cenbox">
+
+<h4 class="page-header">{{ book_info.catalog_entry.title }} - <small>{{ book_info.barcode }}</small></h4>
+
+
+
+<form method="POST" class="form-horizontal">
+{% csrf_token %}
+
+{% for field in form %}
+
+	<div class="form-group {% if field.errors %}has-error{% endif %}">
+		<label class="col-sm-2 control-label">{{ field.label_tag }}</label>
+		<div class="col-sm-7">
+		   {{ field|add_class:'form-control' }}
+			<span class="help-block m-b-none">
+				{{ field.errors.as_text }}
+			</span>
+		</div>
+	</div>
+	<div class="hr-line-dashed"></div>
+{% endfor %}
+	<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-7">
+		{% if book_info.available %}<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-fire"></span> Borrow</button>
+		{% else %}<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-fire"></span> Return</button>{% endif %}
+    </div>
+  </div>
+</form>
+
+</div>
+{% endblock %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+{% if borrowing %}
+$(document).ready(function() {
+	$('#id_reader').select2();
+});
+{% endif %}
+$(document).ready(function() {
+    $('#id_student').focus();
+});
+$(function () {
+    $('#id_return_date').datepicker();
+});
+</script>
+
+{% endblock %}

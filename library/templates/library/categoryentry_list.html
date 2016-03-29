@@ -1,0 +1,78 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% block head_title %}{{ category|capfirst }}{% endblock %}
+
+{% block nav-catalog %}<li class="active">{% endblock %}
+
+{% block body %}
+
+
+<h4 class="page-header text-capitalize">{{ category }}
+<small><form class="pull-right" data-toggle="tooltip" data-placement="top" data-html="true" data-container="form" title="click here to enter">{{ search_bar }}</form></small>
+</h4>
+
+<!-- Table -->{% if object_list %}
+    <table class="table table-bordered table-hover table-condensed" >
+			<thead><tr class="warning">
+				<th scope="col">Index</th>
+				<th scope="col">Title</th>
+				<th scope="col">Publisher</th>
+				<th scope="col">No. of Copies</th>
+				<th scope="col">ISBN</th>
+			</thead></tr>
+			{% for entry in object_list %}
+			<tbody>
+			<tr>
+				<th scope="row">{{ forloop.counter }}</th>
+				<th scope="row"><a href="{% url 'catalogentry-detail' entry.slug %}">{{ entry.title }}</a></th>
+				<td><a href="{% url 'publisher-detail' entry.publisher.slug %}">{{ entry.publisher.names }}</a></td>
+				<td>{{ entry.copies }}</td>
+				<td>{{ entry.isbn }}</td>
+			</tr>
+			{% endfor %}
+			{% if page_obj.has_next or object_list.count == 1 %}
+			{% else %}
+			<tr class="panel-footer">
+				<th scope="row">Total</th>
+				<th scope="row">&nbsp;</th>
+				<td>&nbsp;</td>
+				<td>{{ no_of_entries }}</td>
+				<td colspan="2">&nbsp;</td></tr>
+				{% endif %}
+			</tbody>
+			{% if is_paginated or object_list.count == 1 %}<tr class="panel-footer"><td colspan='5'>
+    <ul class="pagination pagination-sm pull-right">
+        {% if page_obj.has_previous %}
+            <li class="prev">
+                <a href="?page={{ page_obj.previous_page_number|stringformat:"d" }}{{ getvars }}{{ hashtag }}">&laquo; </a>
+            </li>
+        {% else %}
+            <li class="prev disabled"><a>&laquo;</a></li>
+        {% endif %}
+        {% for page in paginator.page_range %}
+            <li class="{% ifequal page page_obj.number %}active{% endifequal %}"><a href="?page={{ page|stringformat:"d" }}{{ getvars }}{{ hashtag }}">{{ page|stringformat:"d" }}</a></li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="next"><a href="?page={{ page_obj.next_page_number|stringformat:"d" }}{{ getvars }}{{ hashtag }}"> &raquo;</a></li>
+        {% else %}
+            <li class="next disabled"><a>&raquo;</a></li>
+        {% endif %}
+    </ul></td></tr>
+	{% endif %}	
+	</table>
+			{% else %}
+				<div class="alert alert-danger text-center">No Catalog entry added.</div>
+			{% endif %}</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#id_isbn').focus();
+        });
+    </script>
+{% endblock %}

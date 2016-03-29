@@ -1,0 +1,145 @@
+{% extends "theme_bootstrap/base.html" %}
+
+{% load staticfiles %}
+{% load breadcrumbs %}
+{% block extra_style %}
+<link href="{% static 'footer-distributed.css' %}" rel="stylesheet">
+<link href="{% static 'bootstrap-table.css' %}" rel="stylesheet">
+<link href="{% static 'btt/jquery.treegrid.css' %}" rel="stylesheet">
+<link href="{% static 'btt/bootstrap-dialog.css' %}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+{% block nav %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">XXX High School&nbsp;<span class="text-muted small">education innovation</span></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+		
+		<ul class="nav navbar-nav navbar-right">
+		
+			{% block nav-home %}<li>{% endblock %}<a href="/orm/">Home</a></li>
+			{% block nav-stud %}<li>{% endblock %}<a href="{% url 'all_students' %}">Students</a>
+			
+			{% if user.is_authenticated %}
+			{% block nav-sms %}<li>{% endblock %}<a href="{% url 'notifications' %}">SMS</a></li>
+			{% endif %}
+			
+			<li class="dropdown">
+				  {% if user.is_authenticated %}<a href="#" class="dropdown-toggle" data-toggle="dropdown">School<span class="caret"></span></a>
+				  <ul class="dropdown-menu" role="menu">
+				  
+			{% block nav-tutor %}<li>{% endblock %}<a href="{% url 'term' %}">Term</a></li>
+					<li><a href="{% url 'roles' %}">Administration</a></li>
+					<li><a href="{% url 'tutors' %}">Teachers</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Other Staff</a></li>
+				    <li><a href="/account/logout/">Accommodation</a></li>
+				  {% else %}
+				   
+				  {% endif %}
+				</ul>
+				</li> 
+				
+			
+			
+				{% block nav-login %}<li>{% endblock %}{% if user.is_authenticated %}<a href="/account/logout/">Logout</a>{% else %}<a href="/account/login/">Login</a>{% endif %}</li>
+				<li class="dropdown">
+				  {% if user.is_authenticated %}<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% dupper %}{% firstof user.get_short_name user.get_username %}{% endupper %}<span class="caret"></span></a>
+				  <ul class="dropdown-menu" role="menu">
+					<li><a href="/profile/">My Profile</a></li>
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="http://localhost:8000/admin">Admin</a></li>
+					<li><a href="/account/settings/">Settings</a></li>
+					<li class="divider"></li>
+				    <li>{% if user.is_authenticated %}<a href="/account/logout/">Logout</a>{% else %}<a href="/account/login/">Login</a>{% endif %}</li>
+				    </ul>
+				  {% else %}
+				  <li><a href="/account/signup/">Register</a></li>
+				   
+				  {% endif %}
+				</li>
+           
+			
+			
+          </ul>
+		  
+        </div>
+      </div>
+    </nav>
+{% endblock %}
+      
+	
+{% block footer %}
+	<footer class="footer-distributed">
+	<div class="container">
+			<div class="footer-right">
+
+				<a href="#"><i class="fa fa-facebook"></i></a>
+				<a href="#"><i class="fa fa-twitter"></i></a>
+				<a href="#"><i class="fa fa-linkedin"></i></a>
+				<a href="#"><i class="fa fa-github"></i></a>
+
+			</div>
+
+			<div class="footer-left">
+
+				<p class="footer-links">
+					<a href="/vedic/">Home</a>
+					·
+					<a href="{% url 'all_students' %}">Students</a>
+					·
+					<a href="/account/login/">Parents Portal</a>
+					·
+					<a href="#">About</a>
+					·
+					<a href="#">Faq</a>
+					·
+					<a href="#">Contact</a>
+				</p>
+
+				<p>KHS &copy; 2015</p>
+			</div>
+</div>
+		</footer>
+{% endblock %}
+
+{% block extra_script %}
+
+<script type="text/javascript">
+$(function() {
+            $('#submit-id-close').click(function(e) {
+                // get form associated with the button
+                var form = $(this).parents('form')
+                e.preventDefault();
+                var dialog = $('<p>Are you sure closing this term?</p>').dialog({
+                title: "Closing Term" ,
+                modal:true,
+                resizable: false, 
+                show: { effect: 'drop', direction: "left" }, 
+                hide:{effect:'blind'},
+
+                buttons: {
+                    "Yes": function() {
+                        form.submit();
+                     },
+                    "Cancel": function() {
+                        $( this ).dialog( "close" );
+                    }
+               }
+           });
+            });
+        });
+		$(function () { 
+				$("[data-toggle='tooltip']").tooltip(); 
+				$("[data-toggle='popover']").popover();
+			});
+</script>
+{% endblock %}

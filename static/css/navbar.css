@@ -1,0 +1,46 @@
+
+body {
+	background: #ffb744 url(../images/bg-body.jpg) repeat left bottom;
+	font-family: "Times New Roman", Times, serif;
+	margin: 0;
+	padding-top: 0px;
+    padding-bottom: 20px;
+}
+#background {
+	background: url(../images/bg-pattern.jpg) repeat-x center top;
+	min-height: 900px;
+}
+.navbar {
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+
+.container {
+    width: 900px;
+    
+}
+
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+
+.cenbox {
+    width: 640px;
+    height: 400px;
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+}
