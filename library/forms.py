@@ -40,7 +40,7 @@ class BorrowForm(forms.Form):
     def clean_return_date(self):
             return_date = self.cleaned_data['return_date']
             if return_date < datetime.date.today():
-                    raise forms.ValidationError(_("This is an earlier date!"))
+                    raise forms.ValidationError(_("This is an earlier date, select a later!"))
             return return_date
                     
 
